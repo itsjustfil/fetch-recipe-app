@@ -10,24 +10,41 @@ import SwiftUI
 struct RecipesListView: View {
     
     @ObservedObject private var viewModel = RecipeListViewModel()
-    
+
     var body: some View {
         NavigationStack {
-            List(viewModel.recipes) { recipe in
-                RecipeCell(recipe: recipe)
-            }
+            mainView
             .navigationTitle("Recipes")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        Task {
-                            await viewModel.fetchData()
-                        }
+                        Task { await viewModel.fetchData() }
                     } label: {
                         Image(systemName: "arrow.clockwise")
                             .tint(.primary)
                     }
                 }
+            }
+        }
+    }
+    
+    private var listView: some View {
+        List(viewModel.recipes) { recipe in
+            RecipeCell(recipe: recipe)
+        }
+    }
+    
+    private var mainView: some View {
+        Group {
+            switch viewModel.loadingState {
+            case .loading:
+                ProgressView()
+            case .loaded:
+                listView
+            case .error:
+                ContentUnavailableView("No recipes found.", systemImage: "fork.knife", description: Text("Please refresh the page to try again."))
+            case .empty:
+                ContentUnavailableView("An error occurred.", systemImage: "fork.knife", description: Text("Please refresh the page to try again."))
             }
         }
     }
