@@ -1,5 +1,5 @@
 //
-//  UnitTests.swift
+//  RecipeListViewModelTests.swift
 //  UnitTests
 //
 //  Created by Filip Brej on 10/31/24.
@@ -9,7 +9,7 @@ import Testing
 import Foundation
 @testable import fetch_recipe_app
 
-struct UnitTests {
+struct RecipeListViewModelTests {
     
     @Test
     func emptyState() async throws {

@@ -15,38 +15,22 @@ final class RecipeListViewModel: ObservableObject {
         case error
         case empty
     }
-    
-    enum NetworkError: Error {
-        case emptyResponse
-        case invalidData
-    }
 
     @Published var recipes = [Recipe]()
     @Published var loadingState: LoadingState = .loading
     
+    private let service: RecipeService
+    
+    init(service: RecipeService = RecipeService()) {
+        self.service = service
+    }
+    
     @MainActor
     func fetchData(from url: URL = URL.goodUrl) async {
         do {
-
             loadingState = .loading
-            
-            guard url == URL.goodUrl else {
-                if url == URL.emptyUrl {
-                    throw NetworkError.emptyResponse
-                } else if url == URL.badUrl {
-                    throw NetworkError.invalidData
-                }
-                return
-            }
-            
-            let (data, _) = try await URLSession.shared.data(from: URL.goodUrl)
-            
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
-            let recipeData = try decoder.decode(RecipeData.self, from: data)
-            self.recipes = recipeData.recipes
-            
+            let data = try await service.fetchData(from: url)
+            recipes = data
             loadingState = .loaded
         } catch NetworkError.invalidData {
             loadingState = .error
