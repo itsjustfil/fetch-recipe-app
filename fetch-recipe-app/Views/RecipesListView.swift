@@ -10,21 +10,17 @@ import SwiftUI
 struct RecipesListView: View {
     
     @ObservedObject var viewModel: RecipeListViewModel
-
+    
     var body: some View {
         NavigationStack {
-            mainView
-            .navigationTitle("Recipes")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        Task { await viewModel.fetchData() }
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                            .tint(.primary)
-                    }
-                }
+            ScrollView {
+                mainView
             }
+            .refreshable {
+                Task { await viewModel.fetchData() }
+            }
+            .navigationTitle("Recipes")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
     
@@ -44,18 +40,27 @@ struct RecipesListView: View {
     }
     
     private var listView: some View {
-        List(viewModel.recipes) { recipe in
-            RecipeCell(recipe: recipe)
-        }
+        VStack {
+            ForEach(viewModel.recipes) { recipe in
+                RecipeCell(recipe: recipe)
+            }
+        }.padding()
     }
     
     private var errorView: some View {
-        ContentUnavailableView("No recipes found.", systemImage: "fork.knife", description: Text("Please refresh the page to try again."))
+        ContentUnavailableView(
+            "No recipes found.",
+            systemImage: "fork.knife",
+            description: Text("Please refresh the page to try again.")
+        )
     }
     
     private var emptyView: some View {
-        ContentUnavailableView("An error occurred.", systemImage: "fork.knife", description: Text("Please refresh the page to try again."))
-
+        ContentUnavailableView(
+            "An error occurred.",
+            systemImage: "fork.knife",
+            description: Text("Please refresh the page to try again.")
+        )
     }
 }
 
@@ -66,7 +71,7 @@ private struct RecipeCell: View {
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
             if let smallPhotoUrl = recipe.photoUrlSmall,
-                let url = URL(string: smallPhotoUrl) {
+               let url = URL(string: smallPhotoUrl) {
                 AsyncImage(url: url) { image in
                     image
                         .resizable()
