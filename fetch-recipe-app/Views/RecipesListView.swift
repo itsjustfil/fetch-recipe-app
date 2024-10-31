@@ -11,20 +11,35 @@ struct RecipesListView: View {
     
     @ObservedObject var viewModel: RecipeListViewModel
     
+    // Counter used to help simulate using the empty and bad URLs to update the UI.
+    @State private var fetchCounter = 0
+    
     var body: some View {
         NavigationStack {
             ScrollView {
-                mainView
+                rootView
             }
             .refreshable {
-                Task { await viewModel.fetchData() }
+                Task {
+                    if fetchCounter == 0 {
+                        await viewModel.fetchData()
+                    } else if fetchCounter == 1 {
+                        await viewModel.fetchData(from: URL.badUrl)
+                    } else if fetchCounter == 2 {
+                        await viewModel.fetchData(from: URL.emptyUrl)
+                    } else {
+                        fetchCounter = 0
+                        return
+                    }
+                    fetchCounter += 1
+                }
             }
             .navigationTitle("Recipes")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
     
-    private var mainView: some View {
+    private var rootView: some View {
         Group {
             switch viewModel.loadingState {
             case .loading:

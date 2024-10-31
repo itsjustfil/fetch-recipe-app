@@ -28,8 +28,8 @@ final class RecipeListViewModel: ObservableObject {
     @MainActor
     func fetchData(from url: URL = URL.goodUrl) async {
         do {
-            sleep(1) // Simulate wait time for network call
             loadingState = .loading
+            sleep(1) // Simulate wait time for network call
             let data = try await service.fetchData(from: url)
             recipes = data
             loadingState = .loaded
