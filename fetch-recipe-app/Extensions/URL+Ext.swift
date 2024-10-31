@@ -1,5 +1,5 @@
 //
-//  URL+Extensions.swift
+//  URL+Ext.swift
 //  fetch-recipe-app
 //
 //  Created by Filip Brej on 10/31/24.

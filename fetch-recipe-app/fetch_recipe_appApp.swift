@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct fetch_recipe_appApp: App {
+    
+    @ObservedObject private var viewModel = RecipeListViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            RecipesListView()
+            RecipesListView(viewModel: viewModel)
+                .task {
+                    await viewModel.fetchData()
+                }
         }
     }
 }

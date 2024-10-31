@@ -25,10 +25,6 @@ final class RecipeListViewModel: ObservableObject {
     @Published var loadingState: LoadingState = .loading
     
     private var fetchCounter = 0
-
-    init() {
-        Task { await fetchData() }
-    }
     
     
     private func getUrl() -> URL {

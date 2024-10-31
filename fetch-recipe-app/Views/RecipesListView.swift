@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecipesListView: View {
     
-    @ObservedObject private var viewModel = RecipeListViewModel()
+    @ObservedObject var viewModel: RecipeListViewModel
 
     var body: some View {
         NavigationStack {
@@ -84,5 +84,8 @@ private struct RecipeCell: View {
 }
 
 #Preview {
-    RecipesListView()
+    @ObservedObject var viewModel = RecipeListViewModel()
+
+    RecipesListView(viewModel: viewModel)
+        .task { await viewModel.fetchData() }
 }
