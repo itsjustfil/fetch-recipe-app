@@ -24,33 +24,9 @@ final class RecipeListViewModel: ObservableObject {
     @Published var recipes = [Recipe]()
     @Published var loadingState: LoadingState = .loading
     
-    private var fetchCounter = 0
-    
-    
-    private func getUrl() -> URL {
-        var url: URL = URL.goodUrl
-        
-        
-        if fetchCounter > 2 {
-            fetchCounter = 0
-        }
-        
-        if fetchCounter == 1 {
-            url = URL.badUrl
-        } else if fetchCounter == 2 {
-            url = URL.emptyUrl
-        }
-        
-        fetchCounter += 1
-        
-        return url
-    }
-    
     @MainActor
-    func fetchData() async {
+    func fetchData(from url: URL = URL.goodUrl) async {
         do {
-            
-            let url = getUrl()
 
             loadingState = .loading
             
