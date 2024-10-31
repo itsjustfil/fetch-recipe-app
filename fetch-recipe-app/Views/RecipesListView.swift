@@ -28,12 +28,6 @@ struct RecipesListView: View {
         }
     }
     
-    private var listView: some View {
-        List(viewModel.recipes) { recipe in
-            RecipeCell(recipe: recipe)
-        }
-    }
-    
     private var mainView: some View {
         Group {
             switch viewModel.loadingState {
@@ -42,11 +36,26 @@ struct RecipesListView: View {
             case .loaded:
                 listView
             case .error:
-                ContentUnavailableView("No recipes found.", systemImage: "fork.knife", description: Text("Please refresh the page to try again."))
+                errorView
             case .empty:
-                ContentUnavailableView("An error occurred.", systemImage: "fork.knife", description: Text("Please refresh the page to try again."))
+                emptyView
             }
         }
+    }
+    
+    private var listView: some View {
+        List(viewModel.recipes) { recipe in
+            RecipeCell(recipe: recipe)
+        }
+    }
+    
+    private var errorView: some View {
+        ContentUnavailableView("No recipes found.", systemImage: "fork.knife", description: Text("Please refresh the page to try again."))
+    }
+    
+    private var emptyView: some View {
+        ContentUnavailableView("An error occurred.", systemImage: "fork.knife", description: Text("Please refresh the page to try again."))
+
     }
 }
 
@@ -81,11 +90,4 @@ private struct RecipeCell: View {
             Spacer()
         }
     }
-}
-
-#Preview {
-    @ObservedObject var viewModel = RecipeListViewModel()
-
-    RecipesListView(viewModel: viewModel)
-        .task { await viewModel.fetchData() }
 }
