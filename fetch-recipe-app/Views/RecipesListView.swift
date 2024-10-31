@@ -9,44 +9,26 @@ import SwiftUI
 
 struct RecipesListView: View {
     
-    private let apiUrl = "https://d3jbb8n5wk0qxi.cloudfront.net/recipes.json"
-    private let malformedUrl = "https://d3jbb8n5wk0qxi.cloudfront.net/recipes-malformed.json"
-    private let emptyUrl = "https://d3jbb8n5wk0qxi.cloudfront.net/recipes-empty.json"
-    
-    @State private var recipeData = RecipeData(recipes: [])
+    @ObservedObject private var viewModel = RecipeListViewModel()
     
     var body: some View {
         NavigationStack {
-            List(recipeData.recipes) { recipe in
+            List(viewModel.recipes) { recipe in
                 RecipeCell(recipe: recipe)
             }
-            .task { await fetchData() }
             .navigationTitle("Recipes")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        Task { @MainActor in
-                            await fetchData()
+                        Task {
+                            await viewModel.fetchData()
                         }
                     } label: {
                         Image(systemName: "arrow.clockwise")
-                            .tint(.black)
+                            .tint(.primary)
                     }
                 }
             }
-        }
-    }
-    
-    @MainActor
-    private func fetchData() async {
-        do {
-            let (data, _) = try await URLSession.shared.data(from: URL(string: apiUrl)!)
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let recipeData = try decoder.decode(RecipeData.self, from: data)
-            self.recipeData = recipeData
-        } catch {
-            print(error.localizedDescription)
         }
     }
 }
