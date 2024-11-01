@@ -2,7 +2,8 @@
 
 > [!NOTE]
 > Because this app was built on iOS 18.1, you must have Xcode 16.1 or later installed.
-> [Download the latest version of Xcode here](https://developer.apple.com/xcode/)
+
+[Download the latest version of Xcode here](https://developer.apple.com/xcode/)
 
 1. Download the repository as a `.zip` file to a location of your choice.
 2. Open the `fetch-recipe-app.xcodeproj` file to open the project in Xcode.
@@ -14,13 +15,13 @@ The areas of the project that I prioritized were the app's architecture, in this
 
 ### Time Spent: Approximately how long did you spend working on this project? How did you allocate your time?
 
-I spent about 3 hours on this project, with most of my time allocated to building the UI, network service, and view model that drives the list of recipes. I spent the first hour or so building everything in
+I spent about 3 hours on this project, with most of my time allocated to building the UI, network service, and view model that drives the list of recipes. My goal was to dedicate about 2/3 of my time to the app's UI and functionality, and the last 1/3 to writing tests.
 
 ### Trade-offs and Decisions: Did you make any significant trade-offs in your approach?
 
 ### Weakest Part of the Project: What do you think is the weakest part of your project?
 
-I think the UI could be better, right now it's very basic and covers the bare minimum. If I spent more time on it I would've implemented a detail view for each recipe that contains a video player and the link to the source.
+I think the UI could be better, right now it's very basic and covers the bare minimum requirements. If I spent more time on it I would've implemented a detail view for each recipe that contains a video player and the link to the source.
 
 ### External Code and Dependencies: Did you use any external code, libraries, or dependencies?
 
