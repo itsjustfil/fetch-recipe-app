@@ -2,8 +2,7 @@
 
 > [!NOTE]
 > Because this app was built on iOS 18.1, you must have Xcode 16.1 or later installed.
-
-[Download the latest version of Xcode here](https://developer.apple.com/xcode/)
+> [Download the latest version of Xcode here](https://developer.apple.com/xcode/)
 
 1. Download the repository as a `.zip` file to a location of your choice.
 2. Open the `fetch-recipe-app.xcodeproj` file to open the project in Xcode.
