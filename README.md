@@ -19,6 +19,8 @@ I spent about 3 hours on this project, with most of my time allocated to buildin
 
 ### Trade-offs and Decisions: Did you make any significant trade-offs in your approach?
 
+Given the small scope of the project, no significant tradeoffs were made in this project.
+
 ### Weakest Part of the Project: What do you think is the weakest part of your project?
 
 I think the UI could be better, right now it's very basic and covers the bare minimum requirements. If I spent more time on it I would've implemented a detail view for each recipe that contains a video player and the link to the source.
